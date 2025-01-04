@@ -1,0 +1,60 @@
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Xcode
+build/
+DerivedData/
+*.xcuserdatad/
+*.xcuserdata/
+*.xccheckout
+*.moved-aside
+*.xcuserstate
+
+# Swift Package Manager
+.build/
+.swiftpm/xcode/
+Package.resolved
+
+# CocoaPods
+Pods/
+Podfile.lock
+
+# Carthage
+Carthage/Build/
+
+# Fastlane
+fastlane/report.xml
+fastlane/screenshots
+fastlane/test_output
+*.ipa
+*.app
+
+# Archives
+*.xcarchive
+
+# Symbols
+*.dSYM.zip
+*.dSYM
+
+# Playgrounds
+timeline.xctimeline
+playground.xcworkspace
+
+# IDEWorkspaceChecks.plist
+xcshareddata/IDEWorkspaceChecks.plist
+
+# Xcode project index
+project.xcworkspace/xcuserdata/
+
+# User-specific schemes
+xcuserdata/
+
+# Workspace-specific settings
+xcworkspace/contents.xcworkspacedata
+
+# Localization
+*.strings~.xib
+*.strings~.storyboard
