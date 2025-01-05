@@ -41,7 +41,6 @@ final class AlbumListViewModel : BaseViewModel {
                     self.updateViewState(.loaded)
                 }
             case .failure(let error):
-                albums = []
                 self.updateViewState(.error(error.localizedDescription))
                 
             }
