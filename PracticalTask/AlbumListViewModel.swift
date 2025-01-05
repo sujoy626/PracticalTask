@@ -14,7 +14,7 @@ final class AlbumListViewModel : BaseViewModel {
     
     
     @Published private(set) var albums: [AlbumDataModel] = [
-        .init(apiID: 1, userID: 1, title: "Fetching Albums...")
+        .init(apiID: 1, userID: 1, title: "Albums...", photos: [])
     ]
     
     private let dataService: AlbumDataServiceProtocol
@@ -30,7 +30,7 @@ final class AlbumListViewModel : BaseViewModel {
     private func loadAlbums() {
         self.updateViewState(.loading("Loading Albums..."))
         Task {
-            let result = await dataService.fetchAlbums()
+            let result = await dataService.fetchOrSave()
             
             switch result {
             case .success(let albums):

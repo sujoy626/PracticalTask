@@ -12,12 +12,12 @@ struct PhotosResponse: Codable {
     let albumID: Int
     let title: String
     let url, thumbnailURL: String
-    let apiID: Int
+    let id: Int
 
     enum CodingKeys: String, CodingKey {
         case albumID = "albumId"
         case title, url
         case thumbnailURL = "thumbnailUrl"
-        case apiID = "id"
+        case id = "id"
     }
 }

@@ -31,4 +31,5 @@ struct AlbumDataModel:Identifiable,Hashable{
     let apiID: Int
     let userID : Int
     let title: String
+    let photos: [PhotoDataModel]
 }
