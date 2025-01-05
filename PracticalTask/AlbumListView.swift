@@ -32,6 +32,8 @@ struct AlbumListView: View {
     var body: some View {
         NavigationStack{
             ZStack{
+                Color(.yellow)
+                    .ignoresSafeArea()
                 switch viewModel.viewState {
                 case .loading(let message):
                     Text(message)

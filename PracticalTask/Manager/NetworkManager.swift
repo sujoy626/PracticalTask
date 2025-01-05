@@ -18,7 +18,7 @@ enum CustomError : Error {
 }
 
 protocol NetworkManagerProtocol: AnyObject {
-    func fetch<T: Codable>(method: HTTPMethods) async throws -> T
+    func fetch<T: Codable>(urlComponent:URLComponent, method: HTTPMethods) async throws -> T
 }
 
 
@@ -26,14 +26,14 @@ class NetworkManager: NetworkManagerProtocol {
     private let fetcher: APIFetcherProtocol
     private let decoder: ResponseHandlerProtocol
     
-    init(fetcher: APIFetcherProtocol = APIFetcheManager(),
+    init(fetcher: APIFetcherProtocol = APIFetcherManager(),
          decoder: ResponseHandlerProtocol = ResponseHandler()) {
         self.fetcher = fetcher
         self.decoder = decoder
     }
     
-    func fetch<T: Codable>(method: HTTPMethods = .get) async throws -> T {
-        let url = "https://jsonplaceholder.typicode.com/albums?userId=10"
+    func fetch<T: Codable>(urlComponent:URLComponent, method: HTTPMethods) async throws -> T {
+        let url = urlComponent.url
         do {
             let data = try await fetcher.fetching(url: url, method: method)
             return try await decoder.decodeResponse(type: T.self, data: data)

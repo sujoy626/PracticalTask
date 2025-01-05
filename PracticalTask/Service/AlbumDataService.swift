@@ -8,30 +8,28 @@
 import Foundation
 
 protocol AlbumDataServiceProtocol {
-//    func fetchAlbums() async -> Result<[AlbumDataModel], Error>
     func fetchAlbums() async -> Result<[AlbumDataModel], Error>
-    func insertDummyDataIfNeeded()
 }
 
 final class AlbumDataService: AlbumDataServiceProtocol {
     
 
-    private let apiService: GetAlbumsServiceProtocol
+    private let getAlbumsService: GetAlbumsServiceProtocol
     private let realmManager: RealmManagerProtocol
     
-    init(apiService: GetAlbumsServiceProtocol = GetAlbumsService(),
+    init(getAlbumsService: GetAlbumsServiceProtocol = GetAlbumsService(),
          realmManager: RealmManagerProtocol = RealmManager()) {
-        self.apiService = apiService
+        self.getAlbumsService = getAlbumsService
         self.realmManager = realmManager
     }
     
     func fetchAlbumsFromAPI() async -> Result<[AlbumDataModel], Error> {
-        let apiResult = await apiService.getAlbums()
+        let apiResult = await getAlbumsService.getAlbums()
         
         switch apiResult {
         case .success(let albumsResponse):
             let albums = albumsResponse.map { response in
-                AlbumsObject(apiID: response.id, userID: response.userID, title: response.title)
+                AlbumObject(apiID: response.id, userID: response.userID, title: response.title)
             }
             realmManager.save(albums, update: false)
             return .success(fetchAlbumsFromRealm())
@@ -41,12 +39,34 @@ final class AlbumDataService: AlbumDataServiceProtocol {
         }
     }
     
+    
+    func fetchPhotosFromAPI() async -> Result<[AlbumDataModel], Error> {
+        let apiResult = await getAlbumsService.getAlbums()
+        
+        switch apiResult {
+        case .success(let albumsResponse):
+            let albums = albumsResponse.map { response in
+                AlbumObject(apiID: response.id, userID: response.userID, title: response.title)
+            }
+            realmManager.save(albums, update: false)
+            return .success(fetchAlbumsFromRealm())
+            
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
+    
+    
+    
     func fetchAlbumsFromRealm() -> [AlbumDataModel] {
-        let realmAlbums = realmManager.fetch(AlbumsObject.self, filter: nil)
+        let realmAlbums = realmManager.fetch(AlbumObject.self, filter: nil)
         return realmAlbums.map { album in
             AlbumDataModel(apiID: album.apiID, userID: album.userID, title: album.title)
         }
     }
+    
+    
+    
     
     func fetchAlbums() async -> Result<[AlbumDataModel], Error> {
         let cachedAlbums = fetchAlbumsFromRealm()
@@ -57,7 +77,5 @@ final class AlbumDataService: AlbumDataServiceProtocol {
         
     }
     
-    func insertDummyDataIfNeeded() {
-        realmManager.insertDummyDataIfNeeded()
-    }
+    
 }

@@ -20,7 +20,9 @@ class GetPhotosService: GetPhotosServiceProtocol {
     
     func getPhotos() async -> Result<[PhotosResponse], Error> {
         do {
-            return .success(try await networkManager.fetch(method: .get))
+            return .success(
+                try await networkManager.fetch(urlComponent: APIURLItemType.getPhotos(query: ""), method: .get)
+            )
         } catch {
             return .failure(error)
         }

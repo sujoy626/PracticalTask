@@ -1,5 +1,5 @@
 //
-//  AlbumsContactObject.swift
+//  AlbumObject.swift
 //  PracticalTask
 //
 //  Created by Sujoy Adhikary on 05/01/25.
@@ -11,7 +11,7 @@ import Foundation
 
 
 
-class AlbumsObject: Object, Identifiable {
+class AlbumObject: Object, Identifiable {
     @Persisted(primaryKey: true) var id: ObjectId
     @Persisted var apiID: Int
     @Persisted var userID: Int
@@ -31,5 +31,4 @@ struct AlbumDataModel:Identifiable,Hashable{
     let apiID: Int
     let userID : Int
     let title: String
-    
 }
