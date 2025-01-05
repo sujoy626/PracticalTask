@@ -11,36 +11,42 @@ import Foundation
 
 @MainActor
 final class AlbumListViewModel : BaseViewModel {
-    @Published private(set) var albums: [AlbumsResponse] = [
-        .init(apiID: 1, userID: 1, title: "Test Album 1 and bla test"),
-        .init(apiID: 2, userID: 2, title: "Test Album 2 bla bla bla"),
-        .init(apiID: 3, userID: 3, title: "XXX Album 3 bla bla bla"),
-        
+    
+    
+    @Published private(set) var albums: [AlbumDataModel] = [
+        .init(apiID: 1, userID: 1, title: "Albums...", photos: [])
     ]
     
-
-    private let service : GetAlbumsServiceProtocol
+    private let dataService: AlbumDataServiceProtocol
     
-    init(service: GetAlbumsServiceProtocol = GetAlbumsService()){
-        self.service = service
+    init(dataService: AlbumDataServiceProtocol = AlbumDataService()) {
+        self.dataService = dataService
         super.init()
-
+        
+        loadAlbums()
     }
     
     
-    func getAlbums(){
+    private func loadAlbums() {
         self.updateViewState(.loading("Loading Albums..."))
-        Task{
-            let res = await service.getAlbums()
-            self.updateViewState(.loaded)
-            switch res {
+        Task {
+            let result = await dataService.fetchOrSave()
+            
+            switch result {
             case .success(let albums):
-                self.albums = albums
+                if albums.isEmpty {
+                    self.updateViewState(.empty("No Albums Found"))
+                } else {
+                    self.albums = albums
+                    self.updateViewState(.loaded)
+                }
             case .failure(let error):
                 self.updateViewState(.error(error.localizedDescription))
+                
             }
         }
     }
     
     
+  
 }

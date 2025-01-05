@@ -19,7 +19,13 @@ class GetAlbumsService: GetAlbumsServiceProtocol {
     
     func getAlbums() async -> Result<[AlbumsResponse], Error> {
         do {
-            return .success(try await networkManager.fetch(method: .get))
+            return .success(
+                try await networkManager
+                    .fetch(
+                        urlComponent: APIURLItemType.getAlbums(query: ""),
+                        method: .get
+                    )
+            )
         } catch {
             return .failure(error)
         }

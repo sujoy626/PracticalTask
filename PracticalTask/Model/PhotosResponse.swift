@@ -8,17 +8,16 @@
 import Foundation
 
 // MARK: - PhotosResponseElement
-struct PhotosResponse: Codable,Identifiable,Hashable {
-    let id = UUID()
-    let albumID: Int?
-    let title: String?
-    let url, thumbnailURL: String?
-    let apiID: Int
+struct PhotosResponse: Codable {
+    let albumID: Int
+    let title: String
+    let url, thumbnailURL: String
+    let id: Int
 
     enum CodingKeys: String, CodingKey {
         case albumID = "albumId"
         case title, url
         case thumbnailURL = "thumbnailUrl"
-        case apiID = "id"
+        case id = "id"
     }
 }
