@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		8ABEFA292D2A5462001016D8 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8ABEFA282D2A5462001016D8 /* RealmSwift */; };
 		8AD484782D2B119700891DED /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 8AD484772D2B119700891DED /* URLImage */; };
+		8AD485022D2B1AA600891DED /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 8AD485012D2B1AA600891DED /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,24 +33,12 @@
 		8ABA69562D290B3E007F4CA2 /* PracticalTask.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PracticalTask.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8ABA696B2D290B40007F4CA2 /* PracticalTaskTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PracticalTaskTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8ABA69752D290B40007F4CA2 /* PracticalTaskUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PracticalTaskUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8AD485012D2B1AA600891DED /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		8AD4847E2D2B17AC00891DED /* Exceptions for "PracticalTask" folder in "PracticalTask" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = 8ABA69552D290B3E007F4CA2 /* PracticalTask */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		8ABA69582D290B3E007F4CA2 /* PracticalTask */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				8AD4847E2D2B17AC00891DED /* Exceptions for "PracticalTask" folder in "PracticalTask" target */,
-			);
 			path = PracticalTask;
 			sourceTree = "<group>";
 		};
@@ -95,6 +84,7 @@
 		8ABA694D2D290B3E007F4CA2 = {
 			isa = PBXGroup;
 			children = (
+				8AD485012D2B1AA600891DED /* README.md */,
 				8ABA69582D290B3E007F4CA2 /* PracticalTask */,
 				8ABA696E2D290B40007F4CA2 /* PracticalTaskTests */,
 				8ABA69782D290B40007F4CA2 /* PracticalTaskUITests */,
@@ -238,6 +228,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8AD485022D2B1AA600891DED /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
