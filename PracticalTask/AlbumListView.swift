@@ -30,29 +30,27 @@ struct AlbumListView: View {
     @StateObject var viewModel = AlbumListViewModel()
     
     var body: some View {
-        LoopingVerticalScrollView(height:190, spacing: 0, items: viewModel.albums) { album in
-            VStack(alignment: .leading, spacing: 8) {
-                Text(album.title ?? "-")
-                    .font(.system(size: 18))
-                    .fontWeight(.bold)
-                    .foregroundColor(.primary)
-                LoopingHorizontalScrollView(width: 150, spacing: 10, items: items) { item in
-                    RoundedRectangle(cornerRadius: 15)
-                        .fill(item.color.gradient)
+        NavigationStack{
+            LoopingVerticalScrollView(height:190, spacing: 0, items: viewModel.albums) { album in
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(album.title)
+                        .font(.system(size: 18))
+                        .fontWeight(.bold)
+                        .foregroundColor(.primary)
+                    LoopingHorizontalScrollView(width: 150, spacing: 10, items: items) { item in
+                        RoundedRectangle(cornerRadius: 15)
+                            .fill(item.color.gradient)
+                    }
+                    .contentMargins(.horizontal, 0, for:.scrollContent)
+                    .frame(height: 150)
                 }
-                .contentMargins(.horizontal, 0, for:.scrollContent)
-                .frame(height: 150)
+    //            .listRowInsets(EdgeInsets(top: 8, leading: 0, bottom: 0, trailing: 0))
             }
-//            .listRowInsets(EdgeInsets(top: 8, leading: 0, bottom: 0, trailing: 0))
-        }
-        .padding(.vertical, 8)
-        .scrollIndicators(.hidden)
-        .scrollContentBackground(.hidden)
-        //        }
-        .safeAreaPadding()
-        .padding(.bottom,12)
-        .onAppear{
-            viewModel.getAlbums()
+            .safeAreaPadding()
+            .navigationTitle("Albums")
+            //        .onAppear{
+            //            viewModel.getAlbums()
+            //        }
         }
         
     }
