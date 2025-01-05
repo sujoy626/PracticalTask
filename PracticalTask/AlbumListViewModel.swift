@@ -29,16 +29,16 @@ final class AlbumListViewModel : BaseViewModel {
     
     private func loadAlbums() {
         self.updateViewState(.loading("Loading Albums..."))
-        
         Task {
             let result = await dataService.fetchAlbums()
-            self.updateViewState(.loaded)
             
             switch result {
             case .success(let albums):
-                self.albums = albums
                 if albums.isEmpty {
                     self.updateViewState(.empty("No Albums Found"))
+                } else {
+                    self.albums = albums
+                    self.updateViewState(.loaded)
                 }
             case .failure(let error):
                 albums = []

@@ -15,19 +15,19 @@ protocol RealmManagerProtocol {
     func insertDummyDataIfNeeded()
 }
 
+
 final class RealmManager: RealmManagerProtocol {
     
-    private let realm: Realm
-
-    init() {
+    private func createRealm() -> Realm {
         do {
-            self.realm = try Realm()
+            return try Realm()
         } catch {
             fatalError("Failed to initialize Realm: \(error.localizedDescription)")
         }
     }
     
     func save<T: Object>(_ objects: [T], update: Bool = false) {
+        let realm = createRealm() // Create a Realm instance on the current thread
         do {
             try realm.write {
                 realm.add(objects, update: update ? .modified : .error)
@@ -37,8 +37,9 @@ final class RealmManager: RealmManagerProtocol {
         }
     }
     
-    func fetch<T: Object>(_ type: T.Type, filter: NSPredicate? = nil) -> [T] {
-        var results = realm.objects(type)
+    func fetch<T: Object>(_ type: T.Type, filter: NSPredicate?) -> [T] {
+        let realm = createRealm() // Create a Realm instance on the current thread
+        var results = realm.objects(type.self)
         if let filter = filter {
             results = results.filter(filter)
         }
@@ -46,6 +47,7 @@ final class RealmManager: RealmManagerProtocol {
     }
     
     func deleteAll<T: Object>(_ type: T.Type) {
+        let realm = createRealm() // Create a Realm instance on the current thread
         do {
             try realm.write {
                 let objects = realm.objects(type)
@@ -57,12 +59,12 @@ final class RealmManager: RealmManagerProtocol {
     }
     
     func insertDummyDataIfNeeded() {
-        let existingAlbums = fetch(AlbumsObject.self)
+        let existingAlbums = fetch(AlbumsObject.self, filter: nil)
         if existingAlbums.isEmpty {
             let dummyAlbums = [
-                AlbumsObject.init(apiID: 1, userID: 1, title: "Test Album 1"),
-                AlbumsObject.init(apiID: 2, userID: 2, title: "Test Album 2"),
-                AlbumsObject.init(apiID: 3, userID: 3, title: "Test Album 3"),
+                AlbumsObject(apiID: 1, userID: 1, title: "Test Album 1"),
+                AlbumsObject(apiID: 2, userID: 2, title: "Test Album 2"),
+                AlbumsObject(apiID: 3, userID: 3, title: "Test Album 3"),
             ]
             save(dummyAlbums)
         }

@@ -50,7 +50,7 @@ final class AlbumDataService: AlbumDataServiceProtocol {
     
     func fetchAlbums() async -> Result<[AlbumDataModel], Error> {
         let cachedAlbums = fetchAlbumsFromRealm()
-        guard !cachedAlbums.isEmpty else {
+        guard cachedAlbums.isEmpty else {
             return .success(cachedAlbums)
         }
         return await fetchAlbumsFromAPI()
