@@ -35,7 +35,7 @@ Method: GET
 Clone the Repository:
 bash
 Copy code
-git clone <git@github.com:sujoy626/PracticalTask.git>  
+git clone git@github.com:sujoy626/PracticalTask.git
 Install Dependencies:
 bash
 Copy code
