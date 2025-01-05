@@ -17,11 +17,8 @@ protocol ResponseHandlerProtocol {
 class ResponseHandler : ResponseHandlerProtocol {
     func decodeResponse<T:Codable>(type : T.Type,data: Data) async throws -> T {
         do {
-            let decodedData = try JSONDecoder().decode(T.self, from: data)
-//            return .success(decodedData)
-            return decodedData
+            return try JSONDecoder().decode(T.self, from: data)
         } catch {
-//            return .failure(CustomError.decodingError(message: error.localizedDescription))
             throw CustomError.decodingError(message: error.localizedDescription)
         }
     }

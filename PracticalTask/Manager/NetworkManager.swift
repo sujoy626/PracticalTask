@@ -26,7 +26,7 @@ class NetworkManager: NetworkManagerProtocol {
     private let fetcher: APIFetcherProtocol
     private let decoder: ResponseHandlerProtocol
     
-    init(fetcher: APIFetcherProtocol = APIFetcherManager(),
+    init(fetcher: APIFetcherProtocol = APIFetcheManager(),
          decoder: ResponseHandlerProtocol = ResponseHandler()) {
         self.fetcher = fetcher
         self.decoder = decoder

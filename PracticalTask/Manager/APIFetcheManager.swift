@@ -1,5 +1,5 @@
 //
-//  APIFetcherManager.swift
+//  APIFetcheManager.swift
 //  PracticalTask
 //
 //  Created by Sujoy Adhikary on 04/01/25.
@@ -18,7 +18,7 @@ protocol APIFetcherProtocol {
     func fetching(url: String,method: HTTPMethods) async throws -> Data
 }
 
-class APIFetcherManager: APIFetcherProtocol {
+class APIFetcheManager: APIFetcherProtocol {
     
     private let session: URLSession
 //    private let url: URL

@@ -16,6 +16,13 @@ class AlbumsObject: Object, Identifiable {
     @Persisted var apiID: Int
     @Persisted var userID: Int
     @Persisted var title: String
+    
+    convenience init(apiID: Int, userID: Int?, title: String?) {
+            self.init()
+            self.apiID = apiID
+            self.userID = userID ?? 0
+            self.title = title ?? "Untitled"
+        }
 }
 
 

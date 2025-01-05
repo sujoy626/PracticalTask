@@ -7,89 +7,47 @@
 
 import Combine
 import Foundation
-import RealmSwift
 
 
 @MainActor
 final class AlbumListViewModel : BaseViewModel {
     
     
-    @Published private(set) var albums: [AlbumDataModel] = []
+    @Published private(set) var albums: [AlbumDataModel] = [
+        .init(apiID: 1, userID: 1, title: "Fetching Albums...")
+    ]
     
+    private let dataService: AlbumDataServiceProtocol
     
-    
-    private let service : GetAlbumsServiceProtocol
-    
-    init(service: GetAlbumsServiceProtocol = GetAlbumsService()){
-        self.service = service
+    init(dataService: AlbumDataServiceProtocol = AlbumDataService()) {
+        self.dataService = dataService
         super.init()
         
-        insertDummyData()
-        fetchAlbumsFromRealm()
-    }
-    
-    private func insertDummyData(){
-        albums = [
-            .init(apiID: 1, userID: 1, title: "Test Album 1 and bla test"),
-            .init(apiID: 2, userID: 2, title: "Test Album 2 bla bla bla"),
-            .init(apiID: 3, userID: 3, title: "XXX Album 3 bla bla bla"),
-            
-        ]
+        loadAlbums()
     }
     
     
-    
-    func getAlbumsFromRemoteServer() {
+    private func loadAlbums() {
         self.updateViewState(.loading("Loading Albums..."))
+        
         Task {
-            let res = await service.getAlbums()
+            let result = await dataService.fetchAlbums()
             self.updateViewState(.loaded)
             
-            switch res {
-            case .success(let albumsResponse):
-                saveAlbumsToRealm(albumsResponse)
-                fetchAlbumsFromRealm()
-            case .failure(let error):
-                self.updateViewState(.error(error.localizedDescription))
-            }
-        }
-    }
-    
-    
-    
-    
-    
-    private let realm = try! Realm()
-    private func saveAlbumsToRealm(_ albums: [AlbumsResponse]) {
-        do {
-            try realm.write {
-                for album in albums {
-                    if realm.objects(AlbumsObject.self).filter("apiID == %@", album.id).isEmpty {
-                        let newAlbum = AlbumsObject()
-                        newAlbum.apiID = album.id
-                        newAlbum.userID = album.userID
-                        newAlbum.title = album.title
-                        realm.add(newAlbum)
-                    }
+            switch result {
+            case .success(let albums):
+                self.albums = albums
+                if albums.isEmpty {
+                    self.updateViewState(.empty("No Albums Found"))
                 }
+            case .failure(let error):
+                albums = []
+                self.updateViewState(.error(error.localizedDescription))
+                
             }
-        } catch {
-            print("Failed to save albums to Realm: \(error.localizedDescription)")
-        }
-    }
-    
-    private func fetchAlbumsFromRealm() {
-        let realmAlbums = realm.objects(AlbumsObject.self)
-        guard !realmAlbums.isEmpty else {
-            insertDummyData()
-            return
-        }
-        
-        self.albums = realmAlbums.map { album in
-            AlbumDataModel(apiID: album.apiID, userID: album.userID, title: album.title)
         }
     }
     
     
-    
+  
 }
